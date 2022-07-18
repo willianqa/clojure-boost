@@ -1,6 +1,11 @@
 (ns clojure-boost.core)
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(def nova-compra {
+                  :data "2022-07-18",
+                  :valor 1500.00,
+                  :estabelecimento "Loja Apple",
+                  :categoria "Eletrônicos",
+                  :cartao 5555666677779
+                  })
+
+(println nova-compra)
