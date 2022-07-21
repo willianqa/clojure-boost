@@ -222,8 +222,7 @@
   [lista-compras]
   (group-by :categoria lista-compras))
 
-(println (into {} (map (fn [[categoria compras-da-categoria]] [categoria (soma-gasto compras-da-categoria)]) (compras-agrupadas (lista-compras)))))
-
-;**************************************************************
-
-
+;(println (into {} (map (fn [[categoria compras-da-categoria]] [categoria (soma-gasto compras-da-categoria)]) (compras-agrupadas (lista-compras)))))
+(->> (compras-agrupadas (lista-compras))
+     (into {} (map (fn [[categoria compras-da-categoria]] [categoria (soma-gasto compras-da-categoria)])))
+     println)
