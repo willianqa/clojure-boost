@@ -1,4 +1,5 @@
-(ns clojure-boost.core)
+(ns clojure-boost.core
+  (:require [clojure.string :as str]))
 
 (defn nova-compra [] {
                       :data "2022-01-01"
@@ -167,7 +168,7 @@
 (defn mes-da-data
   [data]
   (-> data
-      (clojure.string/split #"-")
+      (str/split #"-")
       (second)
       (Integer/parseInt)))
 
@@ -226,3 +227,20 @@
 (->> (compras-agrupadas (lista-compras))
      (into {} (map (fn [[categoria compras-da-categoria]] [categoria (soma-gasto compras-da-categoria)])))
      println)
+
+;*****************************************************************
+;task opcional - Filtrar compras num intervalo de valores
+
+(defn filtrar-compras-num-intervalo-de-valores
+  [x y]
+  (->> (lista-compras)
+       (filter #(and (< x (:valor %)) (> y (:valor %))))))
+
+(println "-->>>" (filtrar-compras-num-intervalo-de-valores 80 100))
+
+
+
+
+
+
+
