@@ -1,7 +1,10 @@
 (ns clojure-boost.csv
-  :require [clojure.data.])
+  :require '[clojure.java.io :as io]
+           '[clojure.data.csv :as csv])
 
 (defn copy-csv
   (with-open
-    [reader (clojure.java.io/reader "Massa de dados.csv")]
-                 (doall (clojure.data.csv/read-csv reader))))
+    [reader (io/reader "Massa de dados.csv")]
+                 (doall (csv/read-csv reader))))
+
+(println copy-csv)
