@@ -9,7 +9,7 @@
 
 (defn validade-cartao
   [yyyy MM]
-  (jt/format "yyyy-MM" (jt/local-date 2023 01))
+  (jt/format "yyyy-MM" (jt/local-date yyyy MM))
   )
 
 (defn cartoes [] {
@@ -224,7 +224,6 @@
 
 (println "LISTA COMPRAS DE UM MES: " (lista-compras-mes (lista-compras) 1))
 
-;**************************************************************
 (defn filtrando-valores
   [lista-compras]
   (->> lista-compras
@@ -241,46 +240,23 @@
      (group-by :cartao)
      (map total-gasto-no-mes)
      println)
-;**************************************************************
+
 (println "TOTAL GASTO POR CATEGORIA:")
-
-;(defn agrupados-por-categoria
-;  [[categoria valores]]
-;  {:categoria      categoria
-;   :valor (filtrando-valores valores)
-;   })
-;
-;(defn agrupados-na-chave
-;  [lista-compras]
-;  (->> lista-compras
-;       (group-by :categoria)
-;        (map agrupados-por-categoria)))
-;
-;(println ">>>>>>" (agrupados-na-chave (lista-compras)))
-
-(defn soma-gasto
-  [lista-compras]
-  (->> lista-compras
-       (map :valor)
-       (reduce +)))
 
 (defn compras-agrupadas
   [lista-compras]
   (group-by :categoria lista-compras))
 
-;(println (into {} (map (fn [[categoria compras-da-categoria]] [categoria (soma-gasto compras-da-categoria)]) (compras-agrupadas (lista-compras)))))
 (->> (compras-agrupadas (lista-compras))
-     (into {} (map (fn [[categoria compras-da-categoria]] [categoria (soma-gasto compras-da-categoria)])))
-     println)
 
-;*****************************************************************
-;task opcional - Filtrar compras num intervalo de valores
+     (into {} (map (fn [[categoria compras-da-categoria]] [categoria (filtrando-valores compras-da-categoria)])))
+     println)
 
 (defn filtrar-compras-num-intervalo-de-valores
   [x y]
   (->> (lista-compras)
-       (filter #(and (< x (:valor %)) (> y (:valor %))))))
+       (filter #(and (< x (:valor %))
+                     (> y (:valor %))))))
 
 (println "LISTA UM RANGE DE VALORES" (filtrar-compras-num-intervalo-de-valores 80 100))
-
 
