@@ -1,4 +1,4 @@
-(ns clojure-boost.core
+(ns semana1.core
   (:require [clojure.string :as str]
             [java-time :as jt]))
 
@@ -224,17 +224,20 @@
 
 (println "LISTA COMPRAS DE UM MES: " (lista-compras-mes (lista-compras) 1))
 
-(defn filtrando-valores
+(defn somando-valores
   [lista-compras]
   (->> lista-compras
        (map :valor)
        (reduce +)))
 
+(println "TOTAL GASTO: " (somando-valores (lista-compras)) )
+
+
 (println "TOTAL GASTO NO MES:")
 (defn total-gasto-no-mes
   [[cartao valores]]
   {:cartao      cartao
-   :gasto-total (filtrando-valores valores)
+   :gasto-total (somando-valores valores)
    })
 (->> (lista-compras-mes (lista-compras) 1)
      (group-by :cartao)
@@ -249,7 +252,7 @@
 
 (->> (compras-agrupadas (lista-compras))
 
-     (into {} (map (fn [[categoria compras-da-categoria]] [categoria (filtrando-valores compras-da-categoria)])))
+     (into {} (map (fn [[categoria compras-da-categoria]] [categoria (somando-valores compras-da-categoria)])))
      println)
 
 (defn filtrar-compras-num-intervalo-de-valores

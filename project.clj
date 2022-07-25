@@ -5,4 +5,4 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [clojure.java-time "0.3.3"]]
-  :repl-options {:init-ns clojure-boost.core})
+  :repl-options {:init-ns semana1.core})
