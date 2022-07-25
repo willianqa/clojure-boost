@@ -1,16 +1,15 @@
 (ns clojure-boost.csv)
 
-(defn nova-compra [data, valor, estabelecimento, categoria, cartao]
+(defn nova-compra [[data, valor, estabelecimento, categoria, cartao]]
   {
    :data data,
    :valor valor,
    :estabelecimento estabelecimento,
    :categoria categoria,
    :cartao cartao
-   }
-  ([[data, valor, estabelecimento, categoria, cartao]]
-   (nova-compra data, valor, estabelecimento, categoria, cartao))
-  )
+   })
+;([[data, valor, estabelecimento, categoria, cartao]]
+; (nova-compra data, valor, estabelecimento, categoria, cartao))
 
 
 
