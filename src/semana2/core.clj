@@ -11,7 +11,7 @@
                    :data            "2022-07-25"
                    :valor           350.00
                    :estabelecimento "PBKids"
-                   :categoria       "Alimentação"
+                   :categoria       "Alimeintação"
                    :cartao          1234123412341234}))
 (println " Nova compra sem id:")
 (pprint nova-compra)
@@ -97,7 +97,14 @@
         estabelecimento-valido (> (count estabelecimento) 2)
         categoria-valida (contains? categoria (:categoria nova-compra))
         ]
-        (and data-valida valor-valido estabelecimento-valido categoria-valida)))
+    (if (and data-valida valor-valido estabelecimento-valido categoria-valida)
+      (println "Tudo ok com a sua compra")
+      (throw (ex-info "Compra com dados incorretor"
+                      {:valor           valor-valido
+                       :estabelecimento estabelecimento-valido
+                       :categoria       categoria-valida
+                       :data            data-valida
+                       })))))
 
     (pprint (valida-compra nova-compra))
 
