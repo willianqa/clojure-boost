@@ -88,7 +88,7 @@
 (println "atomo depois da exclusao:")
 (pprint @repositorio-de-compras)
 ;-------------------------------------------------------------------------------------------------------------
-(def categoria {"Alimentação", "Automóvel", "Casa", "Educação", "Lazer", "Saúde"})
+(def categoria #{"Alimentação", "Automóvel", "Casa", "Educação", "Lazer", "Saúde"})
 
 (defn valida-compra [nova-compra]
   (let [data-valida (re-matcher #"\d{4}-\d{2}-\d{2}" (:data nova-compra))
