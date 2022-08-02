@@ -11,7 +11,7 @@
                    :data            "2022-07-25"
                    :valor           350.00
                    :estabelecimento "PBKids"
-                   :categoria       "Alimeintação"
+                   :categoria       "Alimentação"
                    :cartao          1234123412341234}))
 (println " Nova compra sem id:")
 (pprint nova-compra)
@@ -88,13 +88,12 @@
 (println "atomo depois da exclusao:")
 (pprint @repositorio-de-compras)
 ;-------------------------------------------------------------------------------------------------------------
-(def estabelecimento (:estabelecimento nova-compra))
 (def categoria {"Alimentação", "Automóvel", "Casa", "Educação", "Lazer", "Saúde"})
 
 (defn valida-compra [nova-compra]
   (let [data-valida (re-matcher #"\d{4}-\d{2}-\d{2}" (:data nova-compra))
         valor-valido (> (:valor nova-compra)0)
-        estabelecimento-valido (> (count estabelecimento) 2)
+        estabelecimento-valido (> (count (:estabelecimento nova-compra)) 2)
         categoria-valida (contains? categoria (:categoria nova-compra))
         ]
     (if (and data-valida valor-valido estabelecimento-valido categoria-valida)
