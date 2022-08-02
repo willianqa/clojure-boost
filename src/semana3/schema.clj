@@ -3,36 +3,59 @@
   (:require [schema.core :as s]))
 
 (s/set-fn-validation! true)
+;-------------------------------------------------------------------------------
+;validações:
+(defn data-no-formato? [data]
+  (re-matches #"\d{4}-\d{2}-\d{2}" data))
+
+(defn eh-positivo? [valor]
+  (> valor 0))
+
+(defn pelo-menos-2-caracteres? [estabelecimento]
+  (> (count estabelecimento) 2))
+
+(defn categoria-valida? [categoria]
+  (contains? #{"Alimentação", "Automóvel", "Casa", "Educação", "Lazer", "Saúde"} categoria))
+
+(defn esta-no-range? [cartao]
+  (and (> cartao 0) (< cartao 10000000000000000)))
+
+(def DataValida (s/constrained s/Str data-no-formato?))
+(def ValorValido (s/constrained s/Num pos?))
+(def EstabelecimentoValido (s/constrained s/Str pelo-menos-2-caracteres?))
+(def CategoriaValida (s/constrained s/Str categoria-valida?))
+(def CartaoValido (s/constrained s/Int esta-no-range?))
+;-------------------------------------------------------------------------------
 
 (def CompraSchema
   "Schema de uma compra"
-  {:data s/Str
-   :valor s/Num
-   :estabelecimento s/Str
-   :categoria s/Str
-   :cartao s/Num
+  {:data            DataValida
+   :valor           ValorValido
+   :estabelecimento EstabelecimentoValido
+   :categoria       CategoriaValida
+   :cartao          CartaoValido
    })
 
-;(pprint (s/explain CompraSchema))
-(pprint (s/validate CompraSchema {:data "2022-08-02", :valor 100, :estabelecimento "pbkids", :categoria "Brinquedos", :cartao 12341234}))
-;nao funciona pois falta um valor
-;(pprint (s/validate CompraSchema {:valor 100, :estabelecimento "pbkids", :categoria "Brinquedos", :cartao 12341234}))
-
-;nao da match na CompraSchema tem um campo a mais
-;(s/defn nova-compra :- CompraSchema
-;  [data :- s/Str
-;   valor :- s/Num
-;   estabelecimento :- s/Str
-;   categoria :- s/Str
-;   cartao :- s/Num]
-;  {:data data, :valor valor, :estabelecimento estabelecimento, :categoria categoria, :cartao cartao :amais []})
+;(pprint (s/validate CompraSchema {:data "2022-08-01", :valor 100.00, :estabelecimento "Leroy Merlim", :categoria "Casa", :cartao 1000000000000000}))
 
 (s/defn nova-compra :- CompraSchema
-  [data :- s/Str
-   valor :- s/Num
-   estabelecimento :- s/Str
-   categoria :- s/Str
-   cartao :- s/Num]
+  [data :- DataValida
+   valor :- ValorValido
+   estabelecimento :- EstabelecimentoValido
+   categoria :- CategoriaValida
+   cartao :- CartaoValido]
   {:data data, :valor valor, :estabelecimento estabelecimento, :categoria categoria, :cartao cartao})
 
-(pprint (nova-compra "10/10/2010" 100.00 "pbkids" "brinquedos" 12341234))
+"compra valida"
+(pprint (nova-compra "1990-03-20" 100.00 "Churrasco do Brabo" "Alimentação" 1234123412341234))
+"compra com data no formato incorreto"
+;(pprint (nova-compra "20-03-1990" 100.00 "Churrasco do Brabo" "Alimentação" 1234123412341234))
+"compra com valor incorreto"
+;(pprint (nova-compra "1990-03-20" -10.00 "Churrasco do Brabo" "Alimentação" 1234123412341234))
+"compra com estabelecimento incorreto"
+;(pprint (nova-compra "1990-03-20" 100.00 "w" "Alimentação" 1234123412341234))
+"compra com categoria inválida"
+;(pprint (nova-compra "1990-03-20" 100.00 "Churrasco do Brabo" "PBKids" 1234123412341234))
+"Compra com Cartão inválido"
+;(pprint (nova-compra "1990-03-20" 100.00 "Churrasco do Brabo" "Alimentação" 10000000000000001))
+
