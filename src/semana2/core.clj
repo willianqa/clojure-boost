@@ -11,7 +11,7 @@
                    :data            "2022-07-25"
                    :valor           350.00
                    :estabelecimento "PBKids"
-                   :categoria       "Brinquedos"
+                   :categoria       "Alimentação"
                    :cartao          1234123412341234}))
 (println " Nova compra sem id:")
 (pprint nova-compra)
@@ -49,7 +49,7 @@
 
 (defn gera-id [compras]
   (if-not (empty? compras)
-    (+ 1 (apply max (map :id compras))) ; pega o id máximo e soma 1
+    (+ 1 (apply max (map :id compras)))
     1))
 
 (defn insere-compra [compras nova-compra]
@@ -75,7 +75,8 @@
 (defn exclui-compra
   [compras id]
   (->> compras
-       (remove #(= id (:id %)))))
+       (remove #(= id (:id %)))
+       vec))
 (println "Exclui-compra por id")
 (pprint (exclui-compra compras 1))
 ;-------------------------------------------------------------------------------------------------------------
@@ -87,18 +88,18 @@
 (println "atomo depois da exclusao:")
 (pprint @repositorio-de-compras)
 ;-------------------------------------------------------------------------------------------------------------
-;(defn valida-data? [nova-compra data]
-;  (-> nova-compra
-;      (get data)
-;      (= (format "yyyy-mm-dd"))))
-;
-;(defn valida-compra [nova-compra]
-;  (if (valida-data nova-compra data))
-;  (if valor  = BigDecimal)
-;  (if Estabelecimento  = String com pelo menos 2 caracteres)
-;  (if categoria  = Alimentação ou Automóvel ou Casa ou Educação ou Lazer ou Saúde.)
-;  )
+(def estabelecimento (:estabelecimento nova-compra))
+(def categoria {"Alimentação", "Automóvel", "Casa", "Educação", "Lazer", "Saúde"})
 
+(defn valida-compra [nova-compra]
+  (let [data-valida (re-matcher #"\d{4}-\d{2}-\d{2}" (:data nova-compra))
+        valor-valido (> (:valor nova-compra)0)
+        estabelecimento-valido (> (count estabelecimento) 2)
+        categoria-valida (contains? categoria (:categoria nova-compra))
+        ]
+        (and data-valida valor-valido estabelecimento-valido categoria-valida)))
+
+    (pprint (valida-compra nova-compra))
 
 
 
