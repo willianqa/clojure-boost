@@ -8,9 +8,6 @@
 (defn data-no-formato? [data]
   (re-matches #"\d{4}-\d{2}-\d{2}" data))
 
-;(defn eh-positivo? [valor]
-;  (> valor 0))
-
 (defn pelo-menos-2-caracteres? [estabelecimento]
   (> (count estabelecimento) 2))
 
