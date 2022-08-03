@@ -8,8 +8,8 @@
 (defn data-no-formato? [data]
   (re-matches #"\d{4}-\d{2}-\d{2}" data))
 
-(defn eh-positivo? [valor]
-  (> valor 0))
+;(defn eh-positivo? [valor]
+;  (> valor 0))
 
 (defn pelo-menos-2-caracteres? [estabelecimento]
   (> (count estabelecimento) 2))
@@ -21,7 +21,7 @@
   (and (> cartao 0) (< cartao 10000000000000000)))
 
 (def DataValida (s/constrained s/Str data-no-formato?))
-(def ValorValido (s/constrained s/Num pos?))
+(def ValorValido (s/constrained BigDecimal pos?))
 (def EstabelecimentoValido (s/constrained s/Str pelo-menos-2-caracteres?))
 (def CategoriaValida (s/constrained s/Str categoria-valida?))
 (def CartaoValido (s/constrained s/Int esta-no-range?))
@@ -47,7 +47,7 @@
   {:data data, :valor valor, :estabelecimento estabelecimento, :categoria categoria, :cartao cartao})
 
 "compra valida"
-(pprint (nova-compra "1990-03-20" 100.00 "Churrasco do Brabo" "Alimentação" 1234123412341234))
+(pprint (nova-compra "1990-03-02" 100M "Churrasco do Brabo" "Alimentação" 1234123412341234))
 "compra com data no formato incorreto"
 ;(pprint (nova-compra "20-03-1990" 100.00 "Churrasco do Brabo" "Alimentação" 1234123412341234))
 "compra com valor incorreto"

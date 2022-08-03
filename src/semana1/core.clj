@@ -45,7 +45,7 @@
                                 }
 
                   })
-(println "Lista dados dos cartões: " (cartoes))
+;(println "Lista dados dos cartões: " (cartoes))
 
 (defn nova-compra [] {
                       :data            (java-time 2022 01 01)
@@ -54,10 +54,10 @@
                       :categoria       "Alimentação"
                       :cartao          1234123412341234
                       })
-(println "LISTA UMA NOVA COMPRA: " (nova-compra))
+;(println "LISTA UMA NOVA COMPRA: " (nova-compra))
 
 
-(defn lista-compras []
+(def lista-compras
   [{
     :data            (java-time 2022 01 01)
     :valor           129.90
@@ -193,14 +193,13 @@
     }
    ])
 
-(println "LISTA TODAS AS COMPRAS: " (lista-compras))
+;(println "LISTA TODAS AS COMPRAS: " (lista-compras))
 
 (defn filtrando-cartao
   [numerocartao cartoes]
   (->> cartoes
        (filter #(= (get % :cartao) numerocartao))
-       (map :valor)
-       ))
+       (map :valor)))
 
 (defn total-gasto
   [cartao lista-compras]
@@ -208,7 +207,7 @@
     (->> cartao-filtrado
          (reduce +)
          )))
-(println "TOTAL GASTO EM UM CARTÃO: R$" (total-gasto 1234123412341234 (lista-compras)))
+;(println "TOTAL GASTO EM UM CARTÃO: R$" (total-gasto 1234123412341234 (lista-compras)))
 
 (defn mes-da-data
   [data]
@@ -222,7 +221,7 @@
   (->> lista-compras
        (filter #(= mes (mes-da-data (:data %))))))
 
-(println "LISTA COMPRAS DE UM MES: " (lista-compras-mes (lista-compras) 1))
+;(println "LISTA COMPRAS DE UM MES: " (lista-compras-mes (lista-compras) 1))
 
 (defn somando-valores
   [lista-compras]
@@ -230,36 +229,59 @@
        (map :valor)
        (reduce +)))
 
-(println "TOTAL GASTO: " (somando-valores (lista-compras)) )
+;(println "TOTAL GASTO: " (somando-valores (lista-compras)) )
 
 
-(println "TOTAL GASTO NO MES:")
+;(println "TOTAL GASTO NO MES:")
 (defn total-gasto-no-mes
   [[cartao valores]]
   {:cartao      cartao
    :gasto-total (somando-valores valores)
    })
-(->> (lista-compras-mes (lista-compras) 1)
+(->> (lista-compras-mes lista-compras 1)
      (group-by :cartao)
      (map total-gasto-no-mes)
-     println)
+     ;println
+     )
 
-(println "TOTAL GASTO POR CATEGORIA:")
+;(println "TOTAL GASTO POR CATEGORIA:")
+
+(defn organiza-categoria [[categoria compras-da-categoria]]
+  [categoria (somando-valores compras-da-categoria)])
+
 
 (defn compras-agrupadas
-  [lista-compras]
-  (group-by :categoria lista-compras))
+  [compras]
+  (->>   (group-by :categoria compras)
+         (into {} (map organiza-categoria))))
 
-(->> (compras-agrupadas (lista-compras))
 
-     (into {} (map (fn [[categoria compras-da-categoria]] [categoria (somando-valores compras-da-categoria)])))
-     println)
+(println (compras-agrupadas lista-compras))
+
 
 (defn filtrar-compras-num-intervalo-de-valores
   [x y]
-  (->> (lista-compras)
+  (->> lista-compras
        (filter #(and (< x (:valor %))
                      (> y (:valor %))))))
 
-(println "LISTA UM RANGE DE VALORES" (filtrar-compras-num-intervalo-de-valores 80 100))
+;(println "LISTA UM RANGE DE VALORES" (filtrar-compras-num-intervalo-de-valores 80 100))
 
+
+;TESTANDO O DESTRUCT
+;(defn imprime [{valor :valor categoria :categoria}]
+;  (println valor categoria))
+;
+;(imprime {:data            (java-time 2022 03 01)
+;          :valor           85.00
+;          :estabelecimento "Alura"
+;          :categoria       "Educação"
+;          :cartao          4321432143214321
+;          })
+;
+;(def vetor-exemplo [1 2 3 4 5])
+;
+;(defn imprime-vetor [[_ _ item3]]
+;  (print item3))
+;
+;(imprime-vetor vetor-exemplo)
