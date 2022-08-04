@@ -57,15 +57,15 @@
 (deftest schema-de-compras?-test
   (testing "valida o shcema de compras"
     (is (= (semana3/nova-compra "2022-05-09" 100M "Amazon" "Casa" 1111222233334444)
-           {:data "2022-05-09",
-            :valor 100M,
+           {:data            "2022-05-09",
+            :valor           100M,
             :estabelecimento "Amazon",
-            :categoria "Casa",
-            :cartao 1111222233334444})))
+            :categoria       "Casa",
+            :cartao          1111222233334444})))
 
   (testing "Compra com data inválida"
     (is (thrown? clojure.lang.ExceptionInfo
-                (semana3/nova-compra "03-08-2022" 100M "Amazon" "Casa" 1111222233334444))))
+                 (semana3/nova-compra "03-08-2022" 100M "Amazon" "Casa" 1111222233334444))))
 
   (testing "Compra com valor negativo"
     (is (thrown? clojure.lang.ExceptionInfo
@@ -83,7 +83,46 @@
     (is (thrown? clojure.lang.ExceptionInfo
                  (semana3/nova-compra "2022-08-03" 100M "Amazon" "Casa" 111122223333444499)))))
 
+;--------------------------------------------------------------------------------
 
+(deftest outros-testes?
+  (testing "testando limites da data"
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (semana3/nova-compra "2 0 2 2-08-03" 100M "Amazon" "Casa" 1111222233334444)))
+
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (semana3/nova-compra "2022-0 8-03" 100M "Amazon" "Casa" 1111222233334444)))
+
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (semana3/nova-compra "2022-08-0 3" 100M "Amazon" "Casa" 1111222233334444)))
+
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (semana3/nova-compra "mmmm-08-03" 100M "Amazon" "Casa" 1111222233334444)))
+
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (semana3/nova-compra "2022-MM-03" 100M "Amazon" "Casa" 1111222233334444)))
+
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (semana3/nova-compra "2022-08-dd" 100M "Amazon" "Casa" 1111222233334444)))
+
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (semana3/nova-compra " " 100M "Amazon" "Casa" 1111222233334444)))
+
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (semana3/nova-compra "-08-03" 100M "Amazon" "Casa" 1111222233334444)))
+
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (semana3/nova-compra "2022-03" 100M "Amazon" "Casa" 1111222233334444)))
+
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (semana3/nova-compra "2022-08" 100M "Amazon" "Casa" 1111222233334444)))
+
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (semana3/nova-compra "2022" 100M "Amazon" "Casa" 1111222233334444)))
+
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (semana3/nova-compra 20220804 100M "Amazon" "Casa" 1111222233334444)))
+    ))
 
 
 
