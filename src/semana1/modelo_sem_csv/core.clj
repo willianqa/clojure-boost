@@ -1,4 +1,5 @@
-(ns semana1.core
+(ns semana1.modelo-sem-csv.core
+  (:use clojure.pprint)
   (:require [clojure.string :as str]
             [java-time :as jt]))
 
@@ -193,7 +194,7 @@
     }
    ])
 
-;(println "LISTA TODAS AS COMPRAS: " (lista-compras))
+(println "LISTA TODAS AS COMPRAS: " lista-compras)
 
 (defn filtrando-cartao
   [numerocartao cartoes]
@@ -207,7 +208,7 @@
     (->> cartao-filtrado
          (reduce +)
          )))
-;(println "TOTAL GASTO EM UM CARTÃO: R$" (total-gasto 1234123412341234 (lista-compras)))
+(println "TOTAL GASTO EM UM CARTÃO: R$" (total-gasto 1234123412341234 lista-compras))
 
 (defn mes-da-data
   [data]
@@ -220,8 +221,8 @@
   [lista-compras mes]
   (->> lista-compras
        (filter #(= mes (mes-da-data (:data %))))))
-
-;(println "LISTA COMPRAS DE UM MES: " (lista-compras-mes (lista-compras) 1))
+(println "LISTA COMPRAS DE UM MES: ")
+(pprint (lista-compras-mes lista-compras 1))
 
 (defn somando-valores
   [lista-compras]
@@ -229,10 +230,10 @@
        (map :valor)
        (reduce +)))
 
-;(println "TOTAL GASTO: " (somando-valores (lista-compras)) )
+(println "TOTAL GASTO: " (somando-valores lista-compras))
 
 
-;(println "TOTAL GASTO NO MES:")
+(println "TOTAL GASTO NO MES:")
 (defn total-gasto-no-mes
   [[cartao valores]]
   {:cartao      cartao
@@ -241,7 +242,9 @@
 (->> (lista-compras-mes lista-compras 1)
      (group-by :cartao)
      (map total-gasto-no-mes)
-     ;println
+     (map :gasto-total)
+     (reduce +)
+     println
      )
 
 ;(println "TOTAL GASTO POR CATEGORIA:")
@@ -265,7 +268,9 @@
        (filter #(and (< x (:valor %))
                      (> y (:valor %))))))
 
-;(println "LISTA UM RANGE DE VALORES" (filtrar-compras-num-intervalo-de-valores 80 100))
+(println "LISTA UM RANGE DE VALORES" (filtrar-compras-num-intervalo-de-valores 80 100))
+
+
 
 
 ;TESTANDO O DESTRUCT

@@ -3,7 +3,7 @@
   (:require [semana3.schema :as semana3]))
 
 "compra valida"
-(pprint (semana3/nova-compra "1990-03-02" 100M "Churrasco do Brabo" "Alimentação" 1234123412341234))
+(pprint (semana3/nova-compra "2022-02-02" 100M "Churrasco do Brabo" "Alimentação" 1234123412341234))
 "compra com data no formato incorreto"
 ;(pprint (semana3/nova-compra "20-03-1990" 100.00 "Churrasco do Brabo" "Alimentação" 1234123412341234))
 "compra com valor incorreto"

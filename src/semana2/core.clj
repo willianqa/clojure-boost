@@ -102,8 +102,7 @@
                       {:valor           valor-valido
                        :estabelecimento estabelecimento-valido
                        :categoria       categoria-valida
-                       :data            data-valida
-                       })))))
+                       :data            data-valida})))))
 
     (pprint (valida-compra nova-compra))
 
