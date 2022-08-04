@@ -2,7 +2,8 @@
   (:use clojure.pprint)
   (:require [clojure.test :refer :all]
             [semana1.core :as semana1]
-            ['semana3.schema' :as semana3]
+            [semana3.schema :as semana3]
+            [semana3.logic :as logic]
             [schema.core :as s]))
 
 (s/set-fn-validation! true)
@@ -26,11 +27,11 @@
     :categoria       "Casa"
     :cartao          1234123412341234}])
 
-(s/validate semana3/DataValida "2022-05-09")
-(s/validate semana3/ValorValido 100M)
-(s/validate semana3/EstabelecimentoValido "Amazon")
-(s/validate semana3/CategoriaValida "Casa")
-(s/validate semana3/CartaoValido 1111222233334444)
+(s/validate logic/DataValida "2022-05-09")
+(s/validate logic/ValorValido 100M)
+(s/validate logic/EstabelecimentoValido "Amazon")
+(s/validate logic/CategoriaValida "Casa")
+(s/validate logic/CartaoValido 1111222233334444)
 
 (s/validate semana3/CompraSchema {:data            "2022-05-09"
                                   :valor           100M
