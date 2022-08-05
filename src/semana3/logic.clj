@@ -6,7 +6,7 @@
   (re-matches #"\d{4}-\d{2}-\d{2}" data))
 
 (defn pelo-menos-2-caracteres? [estabelecimento]
-  (> (count estabelecimento) 2))
+  (>= (count estabelecimento) 2))
 
 (defn categoria-valida? [categoria]
   (contains? #{"Alimentação", "Automóvel", "Casa", "Educação", "Lazer", "Saúde"} categoria))

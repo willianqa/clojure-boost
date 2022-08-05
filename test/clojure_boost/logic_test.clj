@@ -1,7 +1,7 @@
 (ns clojure-boost.logic-test
   (:use clojure.pprint)
   (:require [clojure.test :refer :all]
-            [semana1.core :as semana1]
+            [semana1.modelo-com-csv.csv :as semana1]
             [semana3.schema :as semana3]
             [semana3.logic :as logic]
             [schema.core :as s]))

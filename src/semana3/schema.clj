@@ -14,10 +14,23 @@
    :cartao          logic/CartaoValido
    })
 
-(s/defn nova-compra :- CompraSchema
-  [data :- logic/DataValida
-   valor :- logic/ValorValido
-   estabelecimento :- logic/EstabelecimentoValido
-   categoria :- logic/CategoriaValida
-   cartao :- logic/CartaoValido]
-  {:data data, :valor valor, :estabelecimento estabelecimento, :categoria categoria, :cartao cartao})
+(def DataSchema
+  "Schema de uma data"
+  {:data logic/DataValida})
+
+(def ValorSchema
+  "Schema de um valor"
+  {:valor logic/ValorValido})
+
+(def EstabelecimentoSchema
+  "Schema de um estabelecimento"
+  {:estabelecimento logic/EstabelecimentoValido})
+
+(def CategoriaSchema
+  "Schema de uma categoria"
+  {:categoria logic/CategoriaValida})
+
+(def CartaoSchema
+  "Schema de um cartao"
+  {:cartao logic/CartaoValido})
+
