@@ -1,4 +1,4 @@
-(ns semana3.logic
+(ns semana3.schema_validacoes
   (:require [schema.core :as s]))
 
 
