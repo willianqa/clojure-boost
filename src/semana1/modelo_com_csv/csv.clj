@@ -29,7 +29,7 @@
   ;(->> (lista-de-compras-csv)
   ;     (map :cartao)
   ;     vec)
-
+(pprint nova-compra)
 
 (println "Lista todas as compras")
 (pprint (lista-de-compras-csv))
